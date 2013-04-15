@@ -1,0 +1,16 @@
+{
+	"redmine" : {
+		"version" : "2.0.1",
+		"datasource" : {
+			"username" : "username",
+			"password" : "password",
+			"host" : "localhost",
+			"database_name" : "redmine"
+		},
+	},
+	"run_list" : [
+		"ruby19",
+		"httpd24",
+		"redmine"
+	]
+}
