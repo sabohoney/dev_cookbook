@@ -6,6 +6,10 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+service "httpd" do
+	supports :reload => true
+end
+
 git "/var/www/" do
     repository "https://github.com/phpmyadmin/phpmyadmin.git"
     reference "MAINT_3_5_8"
