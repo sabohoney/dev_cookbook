@@ -15,7 +15,6 @@
 	openssl-devel
 	zlib-devel
 	curl-devel
-	mysql55-devel
 	
 }.each do |pkgname|
 	package "#{pkgname}" do
@@ -23,13 +22,22 @@
 	end
 end
 
-git "#{node['redmine']['docroot']}" do
+git "/var/lib/redmine/" do
 	repository "git://github.com/redmine/redmine.git"
-	reference "refs/tags/#{node['redmine']['version']}"
+	reference "refs/tags/2.0.1"
 	action :checkout
 end
 
-template "#{node['redmine']['docroot']}/config/database.yml" do
+bash "create" do
+	not_if { File.exists?('/var/lib/mysql/redmine/')}
+	code <<-EOC
+	mysql -u root -e "create database redmine default character set utf8;"
+	mysql -u root -e "grant all on redmine.* to redmine@localhost identified by 'VDKM49CtMEF4eAGE';"
+	mysql -u root -e "flush privileges;"
+	EOC
+end
+
+template "/var/lib/redmine/config/database.yml" do
 	source "database.yml.2.0.1.erb"
 		variables(
 			:host => "#{node['redmine']['datasource']['host']}",
@@ -40,17 +48,17 @@ template "#{node['redmine']['docroot']}/config/database.yml" do
 	mode "0664"
 end
 
-template "#{node['redmine']['docroot']}/config/configuration.yml" do
+template "/var/lib/redmine/config/configuration.yml" do
         source "configuration.yml.2.0.1.erb"
         mode "0664"
 end
 
-template "#{node['redmine']['docroot']}/Gemfile" do
+template "/var/lib/redmine/Gemfile" do
 	source "Gemfile.erb"
 	mode "0664"
 end
 
-template "#{node['redmine']['docroot']}/lib/tasks/load_default_data_jp.rake" do
+template "/var/lib/redmine/lib/tasks/load_default_data_jp.rake" do
 	source "load_default_data_jp.rake.erb"
 	mode "0664"
 end
@@ -61,10 +69,10 @@ gem_package "bundler" do
 end
 
 bash "bundle exe" do
-	not_if { File.exists?("#{node['redmine']['docroot']}/bundle_success")}
-	cwd "#{node['redmine']['docroot']}"
+	not_if { File.exists?('/var/lib/redmine/bundle_success')}
+	cwd "/var/lib/redmine"
 	code <<-EOC
-		/usr/local/bin/bundle install --without development test rmagick postgresql sqlite --path #{node['redmine']['docroot']}/gems
+		/usr/local/bin/bundle install --without development test rmagick postgresql sqlite --path /var/lib/redmine/gems
 		/usr/local/bin/bundle exec rake generate_secret_token
 		/usr/local/bin/bundle exec rake db:migrate RAILS_ENV=production
 		/usr/local/bin/bundle exec rake redmine:load_default_data_jp RAILS_ENV=production
@@ -72,8 +80,8 @@ bash "bundle exe" do
 end
 
 bash "bundle success" do
-	not_if { File.exists?("#{node['redmine']['docroot']}/bundle_success")}
-	cwd "#{node['redmine']['docroot']}"
+	not_if { File.exists?('/var/lib/redmine/bundle_success')}
+	cwd "/var/lib/redmine"
 	code <<-EOC
 		touch "bundle_success"
 	EOC

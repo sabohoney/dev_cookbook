@@ -16,12 +16,3 @@
 	end
 end
 
-bash "link ruby" do
-	only_if { File.exists?('/usr/bin/ruby1.9')}
-	only_if { File.exists?('/usr/bin/ruby')}
-	code <<-EOC
-		rm /usr/bin/ruby
-		ln -s /usr/bin/ruby1.9 /usr/bin/ruby
-	EOC
-
-end
