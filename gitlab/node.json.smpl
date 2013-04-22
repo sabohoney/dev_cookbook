@@ -1,0 +1,39 @@
+{
+	"gitlab" : {
+		"user" : "git",
+		"docroot" : "/var/lib/",
+		"servername" : "example.com",
+		"gitlab-shell" : {
+			"version" : "v1.1.0",
+			"templates" : {
+				"config.yml" : {"path" : ""}
+			}
+		},
+		"gitlab-app" : {
+			"version" : "5-0-stable",
+			"templates" : {
+				"database.yml" : { "path" : "config" },
+				"gitlab.yml" : { "path" : "config" },
+				"unicorn.rb" : { "path" : "config" },
+				"Gemfile" : {"path" : ""},
+				"Gemfile.lock" : {"path" : ""}
+			}
+		},
+		"templates" : {
+			"gitlab" : {"path" : "/etc/init.d"},
+			"gitlab.conf" : {"path" : "/etc/httpd/conf.d"}
+		},
+		"database" : {
+			"name" : "gitlab",
+			"user" : "gitlab",
+			"password" : "passwd",
+			"host" : "localhost"
+		}
+		
+	},
+	"run_list" : [
+		"yum::epel",
+		"redis",
+		"gitlab"
+	]
+}
