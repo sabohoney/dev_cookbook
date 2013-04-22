@@ -5,9 +5,9 @@
 # But allowing phpMyAdmin to anyone other than localhost should be considered
 # dangerous unless properly secured by SSL
 
-Alias /phpMyAdmin /var/www/phpmyadmin
-Alias /phpmyadmin /var/www/phpmyadmin
-<Directory "/var/www/phpmyadmin/">
+Alias /phpMyAdmin /var/www/phpMyAdmin
+Alias /phpmyadmin /var/www/phpMyAdmin
+<Directory "/var/www/phpMyAdmin/">
    #SSLRequireSSL
    Options FollowSymLinks
    AllowOverride All
@@ -18,7 +18,7 @@ Alias /phpmyadmin /var/www/phpmyadmin
 # This directory does not require access over HTTP - taken from the original
 # phpMyAdmin upstream tarball
 #
-<Directory "/var/www/phpmyadmin/libraries/">
+<Directory "/var/www/phpMyAdmin/libraries/">
     Order Deny,Allow
     Deny from All
     Allow from None
@@ -28,7 +28,7 @@ Alias /phpmyadmin /var/www/phpmyadmin
 # filtering SQL etc.  This may break your mod_security implementation.
 #
 #<IfModule mod_security.c>
-#    <Directory /var/www/phpmyadmin>
+#    <Directory /var/www/phpMyAdmin>
 #        SecRuleInheritance Off
 #    </Directory>
 #</IfModule>
