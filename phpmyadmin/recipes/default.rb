@@ -8,13 +8,14 @@
 #
 cookbook_file "/tmp/phpMyAdmin-3.5.8-all-languages.tar.gz" do
     mode 00644
-    checksum "dabb704a9307cb2a2b8abaf1c2d0d19e"
+#    checksum "dabb704a9307cb2a2b8abaf1c2d0d19e"
 end
 
 bash "create" do
 	not_if { File.exists?('/var/www/phpMyAdmin/')}
 	code <<-EOC
 	   tar -xzf /tmp/phpMyAdmin-3.5.8-all-languages.tar.gz -C /var/www
+	   mv /var/www/phpMyAdmin-3.5.8-all-languages /var/www/phpMyAdmin
 	   rm -f /tmp/phpMyAdmin-3.5.8-all-languages.tar.gz
 	EOC
 end
