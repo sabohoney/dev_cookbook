@@ -20,15 +20,13 @@ bash "create" do
 	EOC
 end
 
-template "config.inc.php" do
-    path "/var/www/phpMyAdmin/"
+template "/var/www/phpMyAdmin/config.inc.php" do
     owner "root"
     group "root"
     mode 0644
 end
 
-template "phpmyadmin.conf" do
-    path "/etc/httpd/conf.d/"
+template "/etc/httpd/conf.d/phpmyadmin.conf" do
     owner "root"
     group "root"
     mode 0644
