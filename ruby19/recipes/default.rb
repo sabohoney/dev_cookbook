@@ -17,7 +17,7 @@
 end
 
 bash "make symlik" do 
-	code<<-EOC
+	code <<-EOC
 		rm /usr/bin/ruby
 		ln -s /usr/bin/ruby1.9 /usr/bin/ruby
 		ln -s /usr/bin/gem1.9 /usr/bin/gem
