@@ -25,3 +25,29 @@ bash "make symlik" do
 		ln -s /usr/bin/gem1.9 /usr/bin/gem
 	EOC
 end
+
+gem_package "bundler" do
+	options("--no-rdoc --no-ri")
+	gem_binary("/usr/bin/gem1.9")
+	action :install
+end
+
+gem_package "bigdecimal" do
+    version :1.1.0
+	options("--no-rdoc --no-ri")
+	gem_binary("/usr/bin/gem1.9")
+	action :install
+end
+
+gem_package "minitest" do
+	options("--no-rdoc --no-ri")
+	gem_binary("/usr/bin/gem1.9")
+	action :install
+end
+
+gem_package "json" do
+    version :1.7.7
+	options("--no-rdoc --no-ri")
+	gem_binary("/usr/bin/gem1.9")
+	action :install
+end

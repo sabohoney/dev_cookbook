@@ -27,7 +27,7 @@ end
 
 git "/var/lib/redmine/" do
 	repository "git://github.com/redmine/redmine.git"
-	reference "refs/tags/2.0.1"
+	reference "refs/tags/<% #{node['redmine']['version']} %>"
 	action :checkout
 end
 
@@ -58,10 +58,10 @@ template "/var/lib/redmine/config/configuration.yml" do
         mode "0664"
 end
 
-template "/var/lib/redmine/Gemfile" do
-	source "Gemfile.erb"
-	mode "0664"
-end
+#template "/var/lib/redmine/Gemfile" do
+#	source "Gemfile.erb"
+#	mode "0664"
+#end
 
 template "/var/lib/redmine/lib/tasks/load_default_data_jp.rake" do
 	source "load_default_data_jp.rake.erb"
