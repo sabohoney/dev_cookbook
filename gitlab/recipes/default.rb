@@ -197,16 +197,15 @@ bash "install gitlab" do
 end
 
 
-if "#{node['gitlab']['database']['refresh']}" == 'true' then
 # gitlabをインストール
-    bash "insert db" do
-    	user "git"
-    	group "git"
-    	cwd "#{doc_root}/gitlab"
-    	code <<-EOC
-    		bundle exec rake gitlab:setup RAILS_ENV=production force=yes
-    	EOC
-    end
+bash "insert db" do
+	only_if {"#{node['gitlab']['database']['refresh']}" == 'true'}
+	user "git"
+	group "git"
+	cwd "#{doc_root}/gitlab"
+	code <<-EOC
+		bundle exec rake gitlab:setup RAILS_ENV=production force=yes
+	EOC
 end
 
 

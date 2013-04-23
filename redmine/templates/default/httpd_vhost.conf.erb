@@ -20,11 +20,19 @@
 	ErrorLog "| /usr/sbin/rotatelogs /etc/httpd/logs/redmine_error_log.%Y%m 86400 540"
 	CustomLog "| /usr/sbin/rotatelogs /etc/httpd/logs/redmine_access_log.%Y%m%d 86400 540" combined
 	ServerAdmin developer@tasss.co.jp
-
+	# SSL CONFIG
     SSLEngine on
     SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
     SSLCertificateFile <%= node[:redmine][:certificate] %>
     SSLCertificateKeyFile <%= node[:redmine][:certificate_key] %>
+    # SSL CACHE
+    Header onsuccess append Cache-Control public
+    ExpiresActive On 
+    ExpiresByType text/css "access plus 3 days"
+    ExpiresByType application/x-javascript "access plus 3 days"
+    ExpiresByType image/jpeg "access plus 3 days"
+    ExpiresByType image/png "access plus 3 days"
+    ExpiresByType image/gif "access plus 3 days"
     <Files ~ "\.(cgi|shtml|phtml|php3?)$">
         SSLOptions +StdEnvVars
     </Files>
