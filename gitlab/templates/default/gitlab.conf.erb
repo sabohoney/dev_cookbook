@@ -37,10 +37,5 @@
     SetEnvIf User-Agent ".*MSIE.*" \
              nokeepalive ssl-unclean-shutdown \
              downgrade-1.0 force-response-1.0
-    <IfModule mod_rewrite.c>
-        RewriteEngine On
-        RewriteCond %{SERVER_PORT} !^443$
-        RewriteRule ^(/.*)?$ https://%{HTTP_HOST}$1 [L,R]
-    </IfModule>
 </VirtualHost>
 <% end %>
