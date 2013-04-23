@@ -24,7 +24,7 @@ $i = 0;
 /*
  * First server
  */
-node['phpmyadmin']['host'].each do |host|
+<% node['phpmyadmin']['host'].each do |host| %>
 $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
@@ -35,7 +35,7 @@ $cfg['Servers'][$i]['compress'] = false;
 /* Select mysql if your server does not have mysqli */
 $cfg['Servers'][$i]['extension'] = 'mysqli';
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
-end
+<% end %>
 
 /*
  * phpMyAdmin configuration storage settings.
