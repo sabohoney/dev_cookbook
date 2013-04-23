@@ -52,7 +52,7 @@
         "secret" : "94WpECebzcyhQzDtA9uUtG9gjVee",
         "host" : [
             "redmine.ch0tejbrz8kd.ap-northeast-1.rds.amazonaws.com",
-            "gitlab.ch0tejbrz8kd.ap-northeast-1.rds.amazonaws.com",
+            "gitlab.ch0tejbrz8kd.ap-northeast-1.rds.amazonaws.com"
         ]
     },
     "run_list" : [
