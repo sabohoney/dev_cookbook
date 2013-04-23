@@ -2,6 +2,9 @@
 	"gitlab" : {
 		"user" : "git",
 		"docroot" : "/var/lib/",
+		"port" : "443",
+		"certificate" : "/path/to/host.crt",
+		"certificate_key" : "/path/to/host.key",
 		"servername" : "example.com",
 		"gitlab-shell" : {
 			"version" : "v1.1.0",

@@ -1,5 +1,7 @@
+<% if node[:gitlab][:port] != "443" %> 
+
 <VirtualHost *:80>
-    ServerName <%= @servername %>
+    ServerName <%= node[:gitlab][:servername] %>
     ProxyRequests Off
     <Proxy *>
 	Require all granted
@@ -8,3 +10,30 @@
     ProxyPass / http://localhost:3000/
     ProxyPassReverse / http://localhost:3000/
 </VirtualHost>
+
+<% else %>
+<VirtualHost *:443>
+    ServerName <%= node[:gitlab][:servername] %>
+    ErrorLog logs/error_log
+    CustomLog logs/access_log combined env=!nolog
+    ProxyRequests Off
+    <Proxy *>
+	Require all granted
+    </Proxy>
+    RequestHeader set X_FORWARDED_PROTO 'https'
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:3000/
+    ProxyPassReverse / http://localhost:3000/
+
+    SSLEngine on
+    SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+    SSLCertificateFile <%= node[:gitlab][:certificate] %>
+    SSLCertificateKeyFile <%= node[:gitlab][:certificate_key] %>
+    <Files ~ "\.(cgi|shtml|phtml|php3?)$">
+        SSLOptions +StdEnvVars
+    </Files>
+    SetEnvIf User-Agent ".*MSIE.*" \
+             nokeepalive ssl-unclean-shutdown \
+             downgrade-1.0 force-response-1.0
+</VirtualHost>
+<% end %>

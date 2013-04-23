@@ -115,6 +115,7 @@ node['gitlab']['templates'].each do |template, attr|
 		variables(
 			:servername => "#{node['gitlab']['servername']}",
 			:docroot => "#{node['gitlab']['docroot']}",
+			:port => "#{node['gitlab']['port']}"
 		)
 		source "#{template}.erb"
 		mode "0755"
