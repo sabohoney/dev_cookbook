@@ -44,5 +44,11 @@
 		AllowOverride All
 		Require all granted
 	</Directory>
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteLog "/etc/httpd/logs/redmine_rewrite_log"
+        RewriteLogLevel 0
+        RewriteCond %{SERVER_PORT} !^443$
+    </IfModule>
 </VirtualHost>
 <% end %>
