@@ -47,6 +47,7 @@
     <IfModule mod_rewrite.c>
         RewriteEngine On
         RewriteCond %{SERVER_PORT} !^443$
+        RewriteRule ^(/.*)?$ https://%{HTTP_HOST}$1 [L,R]
     </IfModule>
 </VirtualHost>
 <% end %>
