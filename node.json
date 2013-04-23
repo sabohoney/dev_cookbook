@@ -53,6 +53,7 @@
 		"httpd24",
 		"httpd24::mod_ssl",
 		"redmine",
+		"yum::epel",
 		"redis",
 		"gitlab",
 		"phpmyadmin"
