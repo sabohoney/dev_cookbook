@@ -11,6 +11,7 @@ production:
   password: <%= @database_password %>
   host: <%= @database_host %>
   # socket: /tmp/mysql.sock
+  collation: utf8_general_ci
 
 #
 # Development specific
@@ -24,6 +25,7 @@ development:
   username: root
   password: "secure password"
   # socket: /tmp/mysql.sock
+  collation: utf8_general_ci
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

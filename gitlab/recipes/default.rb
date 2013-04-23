@@ -30,6 +30,18 @@ doc_root = "#{node['gitlab']['docroot']}#{node['gitlab']['user']}"
 	end
 end
 
+# MySQL
+if "#{node['gitlab']['database']['host']}" == 'localhost' then
+    bash "create" do
+    	not_if { File.exists?('/var/lib/mysql/gitlab/')}
+    	code <<-EOC
+    	mysql -u root -e "create database gitlab default character set utf8 collate utf8_general_ci;"
+    	mysql -u root -e "grant all on gitlab.* to gitlab@localhost identified by 'VDKM49CtMEF4eAGE';"
+    	mysql -u root -e "flush privileges;"
+    	EOC
+    end
+end
+
 
 # サービス設定
 service "httpd" do
@@ -185,14 +197,16 @@ bash "install gitlab" do
 end
 
 
+if "#{node['gitlab']['database']['refresh']}" == 'true' then
 # gitlabをインストール
-bash "insert db" do
-	user "git"
-	group "git"
-	cwd "#{doc_root}/gitlab"
-	code <<-EOC
-		bundle exec rake gitlab:setup RAILS_ENV=production force=yes
-	EOC
+    bash "insert db" do
+    	user "git"
+    	group "git"
+    	cwd "#{doc_root}/gitlab"
+    	code <<-EOC
+    		bundle exec rake gitlab:setup RAILS_ENV=production force=yes
+    	EOC
+    end
 end
 
 

@@ -35,7 +35,7 @@ if "#{node['redmine']['datasource']['host']}" == 'localhost' then
     bash "create" do
     	not_if { File.exists?('/var/lib/mysql/redmine/')}
     	code <<-EOC
-    	mysql -u root -e "create database redmine default character set utf8;"
+    	mysql -u root -e "create database redmine default character set utf8 collate utf8_general_ci;"
     	mysql -u root -e "grant all on redmine.* to redmine@localhost identified by 'VDKM49CtMEF4eAGE';"
     	mysql -u root -e "flush privileges;"
     	EOC
