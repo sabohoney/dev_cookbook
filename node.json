@@ -51,7 +51,7 @@
     "run_list" : [
 		"ruby19",
 		"httpd24",
-		"httpd24::mod_ssl"
+		"httpd24::mod_ssl",
 		"redmine",
 		"redis",
 		"gitlab",
