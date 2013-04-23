@@ -37,11 +37,5 @@
     SetEnvIf User-Agent ".*MSIE.*" \
              nokeepalive ssl-unclean-shutdown \
              downgrade-1.0 force-response-1.0
-    <IfModule mod_rewrite.c>
-        RewriteEngine On
-        RewriteLog "/etc/httpd/logs/gitlab_rewrite_log"
-        RewriteLogLevel 0
-        RewriteCond %{SERVER_PORT} !^443$
-    </IfModule>
 </VirtualHost>
 <% end %>
