@@ -27,7 +27,7 @@ end
 
 git "/var/lib/redmine/" do
 	repository "git://github.com/redmine/redmine.git"
-	reference "refs/tags/<% #{node['redmine']['version']} %>"
+	reference "refs/tags/#{node['redmine']['version']}"
 	action :checkout
 end
 
