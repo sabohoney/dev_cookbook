@@ -15,6 +15,9 @@
 	openssl-devel
 	zlib-devel
 	curl-devel
+	mysql55
+	mysql55-server
+	mysql55-devel
 	
 }.each do |pkgname|
 	package "#{pkgname}" do
