@@ -1,12 +1,40 @@
+<% if node[:redmine][:port] != "443" %> 
+
 <VirtualHost *:80>
-	ServerName redmine.tasss.info
+	ServerName <%= node[:redmine][:servername] %>
 	DocumentRoot /var/lib/redmine/public
 	ErrorLog "| /usr/sbin/rotatelogs /etc/httpd/logs/redmine_error_log.%Y%m 86400 540"
 	CustomLog "| /usr/sbin/rotatelogs /etc/httpd/logs/redmine_access_log.%Y%m%d 86400 540" combined
-	ServerAdmin admin@tasss.co.jp
+	ServerAdmin developer@tasss.co.jp
 	<Directory "/var/lib/redmine/public">
 		Options FollowSymLinks
 		AllowOverride All
 		Require all granted
 	</Directory>
 </VirtualHost>
+
+<% else %>
+<VirtualHost *:443>
+    ServerName <%= node[:redmine][:servername] %>
+	DocumentRoot /var/lib/redmine/public
+	ErrorLog "| /usr/sbin/rotatelogs /etc/httpd/logs/redmine_error_log.%Y%m 86400 540"
+	CustomLog "| /usr/sbin/rotatelogs /etc/httpd/logs/redmine_access_log.%Y%m%d 86400 540" combined
+	ServerAdmin developer@tasss.co.jp
+
+    SSLEngine on
+    SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+    SSLCertificateFile <%= node[:redmine][:certificate] %>
+    SSLCertificateKeyFile <%= node[:redmine][:certificate_key] %>
+    <Files ~ "\.(cgi|shtml|phtml|php3?)$">
+        SSLOptions +StdEnvVars
+    </Files>
+    SetEnvIf User-Agent ".*MSIE.*" \
+             nokeepalive ssl-unclean-shutdown \
+             downgrade-1.0 force-response-1.0
+	<Directory "/var/lib/redmine/public">
+		Options FollowSymLinks
+		AllowOverride All
+		Require all granted
+	</Directory>
+</VirtualHost>
+<% end %>

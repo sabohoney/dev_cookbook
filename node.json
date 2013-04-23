@@ -1,16 +1,60 @@
 {
 	"redmine" : {
-		"version" : "2.0.1",
+		"version" : "2.3.0",
+		"servername" : "redmine.tasss.info",
+        "port" : "443",
+        "certificate" : "/etc/pki/tls/certs/localhost.crt",
+        "certificate_key" : "/etc/pki/tls/private/localhost.key",
 		"datasource" : {
-			"username" : "username",
-			"password" : "password",
-			"host" : "localhost",
-			"database_name" : "redmine"
+			"username" : "redmine",
+			"password" : "0qfugrwC8gaIOL",
+			"host" : "redmine.ch0tejbrz8kd.ap-northeast-1.rds.amazonaws.com",
+			"name" : "redmine"
 		},
+		"docroot" : "/var/lib/redmine"
 	},
-	"run_list" : [
+    "gitlab" : {
+        "user" : "git",
+        "docroot" : "/var/lib/",
+        "port" : "443",
+        "certificate" : "/etc/pki/tls/certs/localhost.crt",
+        "certificate_key" : "/etc/pki/tls/private/localhost.key",
+        "servername" : "gitlab.tasss.info",
+        "gitlab-shell" : {
+                "version" : "v1.1.0",
+                "templates" : {
+                        "config.yml" : {"path" : ""}
+                }
+        },
+        "gitlab-app" : {
+                "version" : "5-0-stable",
+                "templates" : {
+                        "database.yml" : { "path" : "config" },
+                        "gitlab.yml" : { "path" : "config" },
+                        "unicorn.rb" : { "path" : "config" },
+                        "Gemfile" : {"path" : ""},
+                        "Gemfile.lock" : {"path" : ""}
+                }
+        },
+        "templates" : {
+                "gitlab" : {"path" : "/etc/init.d"},
+                "gitlab.conf" : {"path" : "/etc/httpd/conf.d"}
+        },
+        "database" : {
+                "name" : "gitlab",
+                "user" : "gitlab",
+                "password" : "Whu4XcdV7yGwyJ",
+                "host" : "gitlab.ch0tejbrz8kd.ap-northeast-1.rds.amazonaws.com"
+        }
+
+    },
+    "run_list" : [
 		"ruby19",
 		"httpd24",
-		"redmine"
+		"httpd24::mod_ssl"
+		"redmine",
+		"redis",
+		"gitlab",
+		"phpmyadmin"
 	]
 }

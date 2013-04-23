@@ -6,6 +6,18 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+%w{
+	php54
+	php54-mysql
+	php54-pdo
+	php54-mbstring
+	php54-mcrypt	
+}.each do |pkgname|
+	package "#{pkgname}" do
+		action :install
+	end
+end
+
 cookbook_file "/tmp/phpMyAdmin-3.5.8-all-languages.tar.gz" do
     mode 00644
 #    checksum "dabb704a9307cb2a2b8abaf1c2d0d19e"

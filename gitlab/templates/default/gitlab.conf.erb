@@ -2,6 +2,8 @@
 
 <VirtualHost *:80>
     ServerName <%= node[:gitlab][:servername] %>
+	ErrorLog "| /usr/sbin/rotatelogs /etc/httpd/logs/gitlab_error_log.%Y%m 86400 540"
+	CustomLog "| /usr/sbin/rotatelogs /etc/httpd/logs/gitlab_access_log.%Y%m%d 86400 540" combined
     ProxyRequests Off
     <Proxy *>
 	Require all granted
@@ -14,8 +16,8 @@
 <% else %>
 <VirtualHost *:443>
     ServerName <%= node[:gitlab][:servername] %>
-    ErrorLog logs/error_log
-    CustomLog logs/access_log combined env=!nolog
+	ErrorLog "| /usr/sbin/rotatelogs /etc/httpd/logs/gitlab_error_log.%Y%m 86400 540"
+	CustomLog "| /usr/sbin/rotatelogs /etc/httpd/logs/gitlab_access_log.%Y%m%d 86400 540" combined
     ProxyRequests Off
     <Proxy *>
 	Require all granted
