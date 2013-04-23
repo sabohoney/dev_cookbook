@@ -14,6 +14,17 @@
 </VirtualHost>
 
 <% else %>
+<VirtualHost *:80>
+	ServerName <%= node[:redmine][:servername] %>
+	DocumentRoot /var/lib/redmine/public
+	ErrorLog "| /usr/sbin/rotatelogs /etc/httpd/logs/redmine_error_log.%Y%m 86400 540"
+	CustomLog "| /usr/sbin/rotatelogs /etc/httpd/logs/redmine_access_log.%Y%m%d 86400 540" combined
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+        RewriteCond %{SERVER_PORT} !^443$
+        RewriteRule ^(.*)?$ https://%{HTTP_HOST}$1 [L,R]
+    </IfModule>
+</VirtualHost>
 <VirtualHost *:443>
     ServerName <%= node[:redmine][:servername] %>
 	DocumentRoot /var/lib/redmine/public
