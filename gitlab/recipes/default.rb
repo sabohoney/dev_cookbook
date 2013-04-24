@@ -199,6 +199,7 @@ bash "install gitlab" do
 	group "root"
 	cwd "#{doc_root}/gitlab"
 	code <<-EOC
+		bundle install --deployment --without development test postgres rmagick
 		bundle install --without development test postgres rmagick
 	EOC
 end
