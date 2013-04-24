@@ -43,7 +43,7 @@ if "#{node['redmine']['datasource']['host']}" == 'localhost' then
 end
 
 template "/var/lib/redmine/config/database.yml" do
-	source "database.yml.2.0.1.erb"
+	source "database.yml.2.3.0.erb"
 		variables(
 			:host => "#{node['redmine']['datasource']['host']}",
 			:username => "#{node['redmine']['datasource']['username']}",
@@ -54,14 +54,14 @@ template "/var/lib/redmine/config/database.yml" do
 end
 
 template "/var/lib/redmine/config/configuration.yml" do
-        source "configuration.yml.2.0.1.erb"
+        source "configuration.yml.2.3.0.erb"
         mode "0664"
 end
 
-#template "/var/lib/redmine/Gemfile" do
-#	source "Gemfile.erb"
-#	mode "0664"
-#end
+template "/var/lib/redmine/Gemfile" do
+	source "Gemfile.erb"
+	mode "0664"
+end
 
 template "/var/lib/redmine/lib/tasks/load_default_data_jp.rake" do
 	source "load_default_data_jp.rake.erb"

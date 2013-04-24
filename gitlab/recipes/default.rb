@@ -55,6 +55,13 @@ gem_package "bundler" do
 	action :install
 end
 
+gem_package "nokogiri" do
+	options("--no-rdoc --no-ri")
+	version "1.5.6"
+	gem_binary("/usr/bin/gem1.9")
+	action :install
+end
+
 gem_package "charlock_holmes" do
 	options("--no-rdoc --no-ri")
 	version "0.6.9.4"
@@ -192,7 +199,7 @@ bash "install gitlab" do
 	group "root"
 	cwd "#{doc_root}/gitlab"
 	code <<-EOC
-		bundle install --deployment --without development test postgres rmagick
+		bundle install --without development test postgres rmagick
 	EOC
 end
 
