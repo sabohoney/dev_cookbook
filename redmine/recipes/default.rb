@@ -18,6 +18,8 @@
 	mysql55
 	mysql55-server
 	mysql55-devel
+	postgresql-devel
+	sqlite-devel
 	
 }.each do |pkgname|
 	package "#{pkgname}" do
