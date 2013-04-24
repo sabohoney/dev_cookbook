@@ -32,6 +32,7 @@
                         "database.yml" : { "path" : "config" },
                         "gitlab.yml" : { "path" : "config" },
                         "unicorn.rb" : { "path" : "config" },
+                        "Gemfile" : { "path" : "" },
                         "Gemfile.lock" : {"path" : ""}
                 }
         },

@@ -31,3 +31,10 @@ gem_package "bundler" do
 	gem_binary("/usr/bin/gem1.9")
 	action :install
 end
+
+gem_package "json" do
+    version "1.7.7"
+	options("--no-rdoc --no-ri")
+	gem_binary("/usr/bin/gem1.9")
+	action :install
+end
