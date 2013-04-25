@@ -83,6 +83,13 @@ user "#{node['gitlab']['user']}" do
 	action :create
 end
 
+# apacheユーザをgitグループに追加
+bash "group Modify" do
+	code <<-EOC
+		usermod -G git apache
+	EOC
+end
+
 # 公開鍵置き場準備
 directory "#{doc_root}/.ssh" do
 	group "#{node['gitlab']['user']}"
@@ -222,6 +229,11 @@ bash "insert db" do
 	EOC
 end
 
+Directory "#{doc_root}" do
+	group "git"
+	mode g+wr
+	recursive false
+end
 
 service "gitlab" do
 	# start|stop|restart|status
