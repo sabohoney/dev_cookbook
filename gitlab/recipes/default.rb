@@ -231,7 +231,7 @@ end
 
 Directory "#{doc_root}" do
 	group "git"
-	mode g+wr
+	mode 0770
 	recursive false
 end
 
