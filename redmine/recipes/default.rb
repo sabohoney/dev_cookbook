@@ -34,11 +34,16 @@ git "/var/lib/redmine/" do
 end
 
 if "#{node['redmine']['datasource']['host']}" == 'localhost' then
+    service "mysqld" do
+    	supports :status => true, :restart => true, :reload => true
+    	action [ :enable, :start ]
+    end
+
     bash "create" do
     	not_if { File.exists?('/var/lib/mysql/redmine/')}
     	code <<-EOC
     	mysql -u root -e "create database redmine default character set utf8 collate utf8_general_ci;"
-    	mysql -u root -e "grant all on redmine.* to redmine@localhost identified by 'VDKM49CtMEF4eAGE';"
+    	mysql -u root -e "grant all on redmine.* to #{node['redmine']['datasource']['username']}@localhost identified by '#{node['redmine']['datasource']['password']}';"
     	mysql -u root -e "flush privileges;"
     	EOC
     end
@@ -79,7 +84,7 @@ bash "bundle exe" do
 	not_if { File.exists?('/var/lib/redmine/bundle_success')}
 	cwd "/var/lib/redmine"
 	code <<-EOC
-		/usr/local/bin/bundle install --without development test rmagick postgresql sqlite --path /var/lib/redmine/gems
+		/usr/local/bin/bundle install --without development test rmagick --path /var/lib/redmine/gems
 		/usr/local/bin/bundle exec rake generate_secret_token
 		/usr/local/bin/bundle exec rake db:migrate RAILS_ENV=production
 		/usr/local/bin/bundle exec rake redmine:load_default_data_jp RAILS_ENV=production
@@ -112,6 +117,12 @@ end
 template "/etc/httpd/conf.d/passenger.conf" do
 	source "passenger.conf.erb"
 	mode "0664"
+end
+
+Directory "/var/lib/redmine" do
+	group "apache"
+	user "apache"
+	recursive true
 end
 
 service "httpd" do
