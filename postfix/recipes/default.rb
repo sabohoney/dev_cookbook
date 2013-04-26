@@ -11,13 +11,13 @@ package "postfix" do
 end
 
 service "sendmail" do
-	supports :status => true, :restart => true, :reload => true
-	action [ :enable, :start ]
+	supports :stop => true
+	action [ :disable, :stop ]
 end
 
 service "postfix" do
-	supports :stop => true
-	action [ :disable, :stop ]
+	supports :status => true, :restart => true, :reload => true
+	action [ :enable, :start ]
 end
 
 bash "install passenger" do

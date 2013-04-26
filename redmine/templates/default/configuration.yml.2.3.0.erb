@@ -87,7 +87,7 @@ default:
     smtp_settings:
       address: localhost
       port: 25
-      domain: <% node[:redmine][:mailaddress] %>
+      domain: <%= node[:redmine][:mailaddress] %>
   #    authentication: :login
   #    user_name: "redmine@example.net"
   #    password: "redmine"
