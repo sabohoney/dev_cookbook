@@ -78,19 +78,17 @@ Directory "/mnt/s3/redmine" do
 end
 
 bash "s3 mount" do
-	not_if { File.exists?('/var/lib/redmine/files')}
+	not_if { File.exists?('/mnt/s3/redmine/files')}
 	code <<-EOC
 	   s3fs #{node['redmine']['backup']['bucket']} /mnt/s3/redmine -o allow_other
 	EOC
 end
 
-Directory "/mnt/s3/redmine/files" do
-	group "apache"
-	user "apache"
-end
-
-Directory "/var/lib/redmine/files" do
-	action :delete
+bash "backup file" do
+	not_if { File.exists?('/mnt/s3/redmine/files')}
+	code <<-EOC
+	   mv /var/lib/redmine/files /mnt/s3/redmine/
+	EOC
 end
 
 link "/var/lib/redmine/files" do
