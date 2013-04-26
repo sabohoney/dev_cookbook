@@ -11,7 +11,8 @@
 			"host" : "redmine.ch0tejbrz8kd.ap-northeast-1.rds.amazonaws.com",
 			"name" : "redmine"
 		},
-		"docroot" : "/var/lib/redmine"
+		"docroot" : "/var/lib/redmine",
+		"mailaddress" : "info@redmine.tasss.info"
 	},
     "gitlab" : {
         "user" : "git",
@@ -20,6 +21,7 @@
         "certificate" : "/etc/pki/tls/certs/localhost.crt",
         "certificate_key" : "/etc/pki/tls/private/localhost.key",
         "servername" : "gitlab.tasss.info",
+        "mailaddress" : "info@gitlab.tasss.info"
         "gitlab-shell" : {
                 "version" : "v1.1.0",
                 "templates" : {
@@ -64,6 +66,7 @@
 		"yum::epel",
 		"redis",
 		"gitlab",
+		"postfix"
 		"phpmyadmin"
 	]
 }

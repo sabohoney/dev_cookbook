@@ -27,7 +27,7 @@ production: &base
 
     ## Email settings
     # Email address used in the "From" field in mails sent by GitLab
-    email_from: gitlab@localhost
+    email_from: <% node[:gitlab][:mailaddress]
 
     # Email address of your support contact (default: same as email_from)
     support_email: support@localhost
