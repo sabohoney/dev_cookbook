@@ -39,11 +39,16 @@ end
 
 # MySQL
 if "#{node['gitlab']['database']['host']}" == 'localhost' then
+    service "mysqld" do
+    	supports :status => true, :restart => true, :reload => true
+    	action [ :enable, :start ]
+    end
+
     bash "create" do
     	not_if { File.exists?('/var/lib/mysql/gitlab/')}
     	code <<-EOC
-    	mysql -u root -e "create database gitlab default character set utf8 collate utf8_general_ci;"
-    	mysql -u root -e "grant all on gitlab.* to gitlab@localhost identified by 'VDKM49CtMEF4eAGE';"
+    	mysql -u root -e "create database #{node['gitlab']['database']['name']} default character set utf8 collate utf8_general_ci;"
+    	mysql -u root -e "grant all on #{node['gitlab']['database']['name']}.* to #{node['gitlab']['database']['username']}@localhost identified by '#{node['gitlab']['database']['password']}';"
     	mysql -u root -e "flush privileges;"
     	EOC
     end
@@ -231,7 +236,7 @@ end
 
 Directory "#{doc_root}" do
 	group "git"
-	mode 0770
+	mode 0750
 	recursive false
 end
 
@@ -239,4 +244,21 @@ service "gitlab" do
 	# start|stop|restart|status
 	supports :status => true, :restart => true, :reload => true
 	action [ :enable, :start ]
+end
+
+if File.exists?('/etc/ssh/sshd_config.org') then
+    bash "backup config file" do
+    	code <<-EOC
+    		mv /etc/ssh/sshd_config /etc/ssh/sshd_config.org
+    	EOC
+    end
+    template "/etc/ssh/sshd_config" do
+        user "root"
+        group "root"
+        mode "0600"
+    end
+    service "sshd" do
+        supports :reload => true
+        action :reload
+    end
 end
