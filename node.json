@@ -21,7 +21,7 @@
         "certificate" : "/etc/pki/tls/certs/localhost.crt",
         "certificate_key" : "/etc/pki/tls/private/localhost.key",
         "servername" : "gitlab.tasss.info",
-        "mailaddress" : "info@gitlab.tasss.info"
+        "mailaddress" : "info@gitlab.tasss.info",
         "gitlab-shell" : {
                 "version" : "v1.1.0",
                 "templates" : {
